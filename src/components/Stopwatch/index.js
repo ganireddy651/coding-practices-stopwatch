@@ -1,36 +1,45 @@
 import {Component} from 'react'
 import './index.css'
-import {format} from 'date-fns'
 
 class Stopwatch extends Component {
-  state = {sec: 0, min: 0}
+  state = {timeElapsedInSeconds: 0}
 
-  onClickToStart = () => {
-    const {sec} = this.state
-    if (sec < 60) {
-      this.timerId = setInterval(this.timer, 1000)
-    } else {
-      this.setState(preState => ({
-        min: preState.min + 1,
-        sec: 0,
-      }))
+   renderSeconds = () => {
+   const {timeElapsedInSeconds} = this.state
+    const seconds = Math.floor(timeElapsedInSeconds % 60)
+    if (seconds < 10) {
+      return 0${seconds}
     }
+     return seconds
+   
   }
+  renderMinutes = () => {
+  const {timeElapsedInSeconds} = this.state
+  const minutes = Math.floor(timeElapsedInSeconds / 60)
+    if (minutes < 10) {
+      return `0${minutes}`
+     }
+    return minutes
 
-  timer = () => this.setState(preState => ({sec: preState.sec + 1}))
+  }
+timer = () => this.setState(preState => ({timeElapsedInSeconds: preState.timeElapsedInSeconds + 1}))
 
-  onClickToStop = () => {
+onClickToStart = () =>  this.timerId = setInterval(this.timer, 1000)
+
+onClickToStop = () => {
     clearInterval(this.timerId)
   }
 
   onClickToReset = () => {
     clearInterval(this.timerId)
-    this.setState({sec: 0, min: 0})
+    this.setState({timeElapsedInSeconds: 0})
   }
+  
 
   render() {
-    const {min, sec} = this.state
-    const time = format(new Date(0, 0, 0, 0, min, sec), 'mm:ss')
+    const seconds = this.renderSeconds 
+    const minutes = this.renderMinutes
+
 
     return (
       <div className="app-container">
@@ -45,7 +54,7 @@ class Stopwatch extends Component {
             <p className="timmer-text">Timmer</p>
           </div>
           <div className="time-container">
-            <h1 className="span-text">{time}</h1>
+            <h1 className="span-text">`${seconds}:${minutes}`</h1>
           </div>
           <div className="button-container">
             <button
