@@ -4,29 +4,35 @@ import './index.css'
 class Stopwatch extends Component {
   state = {timeElapsedInSeconds: 0}
 
-   renderSeconds = () => {
-   const {timeElapsedInSeconds} = this.state
+  renderSeconds = () => {
+    const {timeElapsedInSeconds} = this.state
     const seconds = Math.floor(timeElapsedInSeconds % 60)
+
     if (seconds < 10) {
-      return 0${seconds}
+      return `0${seconds}`
     }
-     return seconds
-   
+    return seconds
   }
+
   renderMinutes = () => {
-  const {timeElapsedInSeconds} = this.state
-  const minutes = Math.floor(timeElapsedInSeconds / 60)
+    const {timeElapsedInSeconds} = this.state
+    const minutes = Math.floor(timeElapsedInSeconds / 60)
     if (minutes < 10) {
       return `0${minutes}`
-     }
+    }
     return minutes
-
   }
-timer = () => this.setState(preState => ({timeElapsedInSeconds: preState.timeElapsedInSeconds + 1}))
 
-onClickToStart = () =>  this.timerId = setInterval(this.timer, 1000)
+  timer = () =>
+    this.setState(preState => ({
+      timeElapsedInSeconds: preState.timeElapsedInSeconds + 1,
+    }))
 
-onClickToStop = () => {
+  onClickToStart = () => {
+    this.timerId = setInterval(this.timer, 1000)
+  }
+
+  onClickToStop = () => {
     clearInterval(this.timerId)
   }
 
@@ -34,12 +40,10 @@ onClickToStop = () => {
     clearInterval(this.timerId)
     this.setState({timeElapsedInSeconds: 0})
   }
-  
 
   render() {
-    const seconds = this.renderSeconds 
-    const minutes = this.renderMinutes
-
+    const seconds = this.renderSeconds()
+    const minutes = this.renderMinutes()
 
     return (
       <div className="app-container">
@@ -54,7 +58,7 @@ onClickToStop = () => {
             <p className="timmer-text">Timmer</p>
           </div>
           <div className="time-container">
-            <h1 className="span-text">`${seconds}:${minutes}`</h1>
+            <h1 className="span-text">{`${minutes}:${seconds}`}</h1>
           </div>
           <div className="button-container">
             <button
