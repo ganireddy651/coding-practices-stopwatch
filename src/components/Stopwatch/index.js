@@ -51,6 +51,7 @@ class Stopwatch extends Component {
         <div className="card">
           <div className="timmer-container">
             <img
+              d
               className="clock-image"
               src="https://assets.ccbp.in/frontend/react-js/stopwatch-timer.png"
               alt="stopwatch"
